@@ -9,6 +9,9 @@ class _ProductListState extends State<ProductList> {
   @override
   Widget build(BuildContext context) {
     String _value;
+    var size = MediaQuery.of(context).size;
+    final double itemHeight = (size.height - kToolbarHeight) / 1.8;
+    final double itemWidth = size.width / 2;
     return BlocBuilder<CategoryBloc, int>(
       builder: (context, number) => Scaffold(
         backgroundColor: Colors.grey[200],
@@ -72,65 +75,80 @@ class _ProductListState extends State<ProductList> {
                   )
                 ],
               ),
-              Wrap(
-                children: [
-                  ChoiceChip(
-                    backgroundColor: Colors.white,
-                    label: Text(
-                      'Sneakers',
-                      style: GoogleFonts.poppins(fontSize: 14),
+              Container(
+                height: 80,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Row(
+                      children: [
+                        ChoiceChip(
+                          backgroundColor: Colors.white,
+                          label: Text(
+                            'Sneakers',
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                          selected: (number == 1) ? true : false,
+                          avatar:
+                              Image(image: AssetImage('assets/sniker1.png')),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              BlocProvider.of<CategoryBloc>(context)
+                                  .add(number = 1);
+                            });
+                          },
+                          selectedColor: Colors.blue[70],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ChoiceChip(
+                          backgroundColor: Colors.white,
+                          avatar: Image(image: AssetImage('assets/watch.png')),
+                          label: Text(
+                            'Watch',
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                          selected: (number == 2) ? true : false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              BlocProvider.of<CategoryBloc>(context)
+                                  .add(number = 2);
+                            });
+                          },
+                          selectedColor: Colors.blue[70],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        ChoiceChip(
+                          backgroundColor: Colors.white,
+                          avatar:
+                              Image(image: AssetImage('assets/backpack.png')),
+                          label: Text(
+                            'Backpack',
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                          selected: (number == 3) ? true : false,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              BlocProvider.of<CategoryBloc>(context)
+                                  .add(number = 3);
+                            });
+                          },
+                          selectedColor: Colors.blue[70],
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
                     ),
-                    selected: (number == 1) ? true : false,
-                    avatar: Image(image: AssetImage('assets/sniker1.png')),
-                    onSelected: (bool selected) {
-                      setState(() {
-                        BlocProvider.of<CategoryBloc>(context).add(number = 1);
-                      });
-                    },
-                    selectedColor: Colors.blue[70],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ChoiceChip(
-                    backgroundColor: Colors.white,
-                    avatar: Image(image: AssetImage('assets/watch.png')),
-                    label: Text(
-                      'Watch',
-                      style: GoogleFonts.poppins(fontSize: 14),
-                    ),
-                    selected: (number == 2) ? true : false,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        BlocProvider.of<CategoryBloc>(context).add(number = 2);
-                      });
-                    },
-                    selectedColor: Colors.blue[70],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ChoiceChip(
-                    backgroundColor: Colors.white,
-                    avatar: Image(image: AssetImage('assets/backpack.png')),
-                    label: Text(
-                      'Backpack',
-                      style: GoogleFonts.poppins(fontSize: 14),
-                    ),
-                    selected: (number == 3) ? true : false,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        BlocProvider.of<CategoryBloc>(context).add(number = 3);
-                      });
-                    },
-                    selectedColor: Colors.blue[70],
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Expanded(
+              Flexible(
                   child: GridView.count(
-                childAspectRatio: 0.7,
-                shrinkWrap: true,
+                childAspectRatio: (itemWidth / itemHeight),
                 physics: BouncingScrollPhysics(),
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
